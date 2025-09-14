@@ -1,154 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galaxy Explorer</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: radial-gradient(circle at bottom, #000010, #000000);
-            color: #fff;
-            overflow-x: hidden;
-        }
-        header {
-            text-align: center;
-            padding: 20px;
-            background: rgba(0, 0, 30, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2.5em;
-            color: #4ecdc4;
-            text-shadow: 0 0 15px rgba(78, 205, 196, 0.7);
-        }
-        #searchBox {
-            margin-top: 10px;
-            padding: 10px 15px;
-            border-radius: 20px;
-            border: none;
-            outline: none;
-            width: 250px;
-            font-size: 1em;
-        }
-        .galaxy-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            padding: 20px;
-        }
-        .galaxy-card {
-            background: rgba(20, 20, 40, 0.9);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 0 20px rgba(78, 205, 196, 0.3);
-            transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-        }
-        .galaxy-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 0 40px rgba(78, 205, 196, 0.5);
-        }
-        .galaxy-info {
-            margin-top: 15px;
-        }
-        .galaxy-info h3 {
-            margin: 0 0 10px;
-            color: #ffe66d;
-            font-size: 1.4em;
-        }
-        .galaxy-description {
-            font-size: 0.95em;
-            line-height: 1.6;
-            color: #ddd;
-        }
-        .explore-btn {
-            margin-top: 15px;
-            padding: 10px 15px;
-            background: #4ecdc4;
-            border: none;
-            border-radius: 25px;
-            color: #000;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .explore-btn:hover {
-            background: #38b2ac;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,30,0.85);
-            backdrop-filter: blur(15px);
-            z-index: 2000;
-            overflow-y: auto;
-            padding: 40px;
-        }
-        .modal-content {
-            background: rgba(30, 30, 60, 0.95);
-            padding: 30px;
-            border-radius: 20px;
-            max-width: 800px;
-            margin: auto;
-            box-shadow: 0 0 40px rgba(78, 205, 196, 0.6);
-            animation: fadeIn 0.5s ease;
-        }
-        .close-btn {
-            float: right;
-            font-size: 1.5em;
-            cursor: pointer;
-            color: #fff;
-        }
-        .stars {
-            position: fixed;
-            width: 100%; height: 100%;
-            top: 0; left: 0;
-            z-index: -1;
-            overflow: hidden;
-        }
-        .star {
-            position: absolute;
-            width: 2px; height: 2px;
-            background: white;
-            border-radius: 50%;
-            opacity: 0.8;
-            animation: twinkle 3s infinite ease-in-out;
-        }
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 1; }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        /* Optional: space for iframe ad */
-        .iframe-ad {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galaxy Explorer - Journey Through the Cosmos</title>
+<style>
+    /* ALL your original CSS */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Arial', sans-serif; background: radial-gradient(ellipse at center, #1a1a2e 0%, #000000 100%); color:white; overflow-x:hidden; min-height:100vh; }
+    .stars { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:1; }
+    .star { position:absolute; width:2px; height:2px; background:white; border-radius:50%; animation:twinkle 3s infinite alternate; }
+    @keyframes twinkle { 0%{opacity:0.3;} 100%{opacity:1;} }
+    .container { position:relative; z-index:2; max-width:1400px; margin:0 auto; padding:20px; }
+    .header { text-align:center; padding:40px 0; background:linear-gradient(135deg, rgba(138,43,226,0.3), rgba(30,144,255,0.3)); border-radius:20px; margin-bottom:40px; backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.1); }
+    .header h1 { font-size:3.5em; background: linear-gradient(45deg,#ff6b6b,#4ecdc4,#45b7d1,#96ceb4); background-size:300% 300%; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; animation:gradientShift 4s ease-in-out infinite; margin-bottom:10px; }
+    @keyframes gradientShift { 0%,100%{background-position:0% 50%;} 50%{background-position:100% 50%;} }
+    .header p { font-size:1.3em; opacity:0.9; color:#b8c6db; }
+    .galaxy-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(400px,1fr)); gap:30px; margin-bottom:40px; }
+    .galaxy-card { background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)); border-radius:20px; padding:25px; border:1px solid rgba(255,255,255,0.2); backdrop-filter:blur(15px); transition: all 0.4s ease; cursor:pointer; position:relative; overflow:hidden; }
+    .galaxy-card:hover { transform:translateY(-10px) scale(1.02); box-shadow:0 20px 40px rgba(0,0,0,0.3); border-color: rgba(138,43,226,0.5); }
+    .galaxy-visual { width:100%; height:200px; border-radius:15px; margin-bottom:20px; position:relative; overflow:hidden; background:radial-gradient(ellipse at center, rgba(138,43,226,0.3), transparent); }
+    .spiral-galaxy { background: radial-gradient(ellipse at center, rgba(255,215,0,0.8) 0%, rgba(255,140,0,0.6) 20%, rgba(138,43,226,0.4) 40%, rgba(30,144,255,0.3) 60%, transparent 80%); animation:rotate 20s linear infinite; }
+    .elliptical-galaxy { background: radial-gradient(ellipse 80% 60% at center, rgba(255,192,203,0.8) 0%, rgba(255,105,180,0.6) 30%, rgba(138,43,226,0.4) 50%, transparent 70%); animation:pulse 8s ease-in-out infinite; }
+    .irregular-galaxy { background: radial-gradient(circle at 30% 20%, rgba(255,69,0,0.7) 0%, transparent 25%), radial-gradient(circle at 70% 80%, rgba(30,144,255,0.7) 0%, transparent 25%), radial-gradient(circle at 50% 50%, rgba(138,43,226,0.5) 0%, transparent 40%); animation:flicker 6s ease-in-out infinite; }
+    .lenticular-galaxy { background: linear-gradient(0deg, transparent 0%, rgba(255,215,0,0.3) 20%, rgba(255,165,0,0.8) 50%, rgba(255,215,0,0.3) 80%, transparent 100%); animation:rotate 25s linear infinite; }
+    @keyframes rotate { 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
+    @keyframes pulse { 0%,100%{transform:scale(1); opacity:0.8;} 50%{transform:scale(1.05); opacity:1;} }
+    @keyframes flicker { 0%,100%{opacity:0.8;} 25%{opacity:1;} 50%{opacity:0.9;} 75%{opacity:1;} }
+    .galaxy-info h3 { font-size:1.8em; margin-bottom:15px; color:#4ecdc4; }
+    .galaxy-stats { display:grid; grid-template-columns:repeat(2,1fr); gap:15px; margin-bottom:20px; }
+    .stat { background:rgba(255,255,255,0.1); padding:10px 15px; border-radius:10px; text-align:center; }
+    .stat-label { font-size:0.9em; color:#b8c6db; margin-bottom:5px; }
+    .stat-value { font-size:1.2em; font-weight:bold; color:#ff6b6b; }
+    .galaxy-description { line-height:1.6; color:#e8eaf0; margin-bottom:20px; }
+    .explore-btn { background: linear-gradient(45deg,#667eea 0%,#764ba2 100%); border:none; padding:12px 25px; border-radius:25px; color:white; font-weight:bold; cursor:pointer; transition: all 0.3s ease; width:100%; }
+    .explore-btn:hover { transform:translateY(-2px); box-shadow:0 10px 20px rgba(102,126,234,0.4); }
+    .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); backdrop-filter:blur(10px); z-index:1000; padding:20px; }
+    .modal-content { background:linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)); border-radius:20px; padding:30px; max-width:800px; margin:50px auto; border:1px solid rgba(255,255,255,0.2); backdrop-filter:blur(15px); position:relative; max-height:80vh; overflow-y:auto; }
+    .close { position:absolute; top:15px; right:20px; font-size:2em; cursor:pointer; color:#ff6b6b; transition:color 0.3s ease; }
+    .close:hover { color:#ff5252; }
+    .search-container { text-align:center; margin-bottom:40px; }
+    .search-box { background:rgba(255,255,255,0.1); border:2px solid rgba(255,255,255,0.2); border-radius:25px; padding:15px 25px; font-size:1.1em; color:white; width:100%; max-width:400px; backdrop-filter:blur(10px); transition: all 0.3s ease; }
+    .search-box:focus { outline:none; border-color:#4ecdc4; box-shadow:0 0 20px rgba(78,205,196,0.3); }
+    .search-box::placeholder { color:#b8c6db; }
+    @media(max-width:768px){ .galaxy-grid{grid-template-columns:1fr;} .header h1{font-size:2.5em;} .galaxy-stats{grid-template-columns:1fr;} }
+</style>
 </head>
 <body>
-    <div class="stars" id="starContainer"></div>
+<div class="stars"></div>
 
-    <header>
+<div class="container">
+    <div class="header">
         <h1>Galaxy Explorer</h1>
-        <input type="text" id="searchBox" placeholder="Search galaxies...">
-    </header>
+        <p>Embark on an extraordinary journey through the cosmos and discover the wonders of our universe</p>
+    </div>
+
+    <div class="search-container">
+        <input type="text" class="search-box" placeholder="Search for galaxies..." id="searchBox">
+    </div>
 
     <!-- Iframe Sync Ad -->
-    <div class="iframe-ad">
+    <div class="iframe-ad" style="margin-bottom:20px;text-align:center;">
         <script type="text/javascript">
             atOptions = {
                 'key' : '75de0968dd275debc8fa297f3f6290cb',
@@ -161,95 +73,129 @@
         <script type="text/javascript" src="//www.highperformanceformat.com/75de0968dd275debc8fa297f3f6290cb/invoke.js"></script>
     </div>
 
-    <!-- Galaxy Grid -->
     <div class="galaxy-grid" id="galaxyGrid"></div>
+</div>
 
-    <!-- Modal -->
-    <div class="modal" id="galaxyModal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <div id="modalContent"></div>
-        </div>
+<div class="modal" id="galaxyModal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div id="modalContent"></div>
     </div>
+</div>
 
-    <script>
-        const galaxies = [
-            {name: "Milky Way", type: "Barred Spiral", distance: "0 ly", diameter: "105,700 ly", stars: "100–400 billion", description: "Our home galaxy.", details: "The Milky Way contains our Solar System.", age: "13.6 billion years"},
-            {name: "Andromeda", type: "Spiral", distance: "2.537 million ly", diameter: "220,000 ly", stars: "1 trillion", description: "Closest large galaxy.", details: "Expected to collide with Milky Way in 4.5 billion years.", age: "10 billion years"}
-        ];
-        let currentGalaxies = [...galaxies];
+<script>
+/* ENTIRE ORIGINAL JS SCRIPT */
+const galaxies = [
+    { name: "Milky Way", type: "Spiral", distance: "0 light-years", diameter: "100,000 ly", stars: "400 billion", age: "13.6 billion years", description: "Our home galaxy, a magnificent spiral galaxy containing our solar system. The Milky Way features beautiful spiral arms filled with young, hot stars, and a central bulge containing older stars. It's part of the Local Group of galaxies.", visualClass: "spiral-galaxy", details: "The Milky Way is a barred spiral galaxy with four main spiral arms. Our solar system is located about 26,000 light-years from the galactic center, in a minor arm called the Orion Spur. The galaxy rotates once every 200-250 million years, meaning our solar system has completed only about 20-25 orbits since its formation." },
+    { name: "Andromeda", type: "Spiral", distance: "2.5 million ly", diameter: "220,000 ly", stars: "1 trillion", age: "10 billion years", description: "The nearest major galaxy to the Milky Way and the largest galaxy in the Local Group. Andromeda is approaching us at 110 km/s and will collide with the Milky Way in about 4.5 billion years, creating a spectacular cosmic dance.", visualClass: "spiral-galaxy", details: "Also known as M31, Andromeda is the most distant object visible to the naked eye. It contains a double nucleus, suggesting it may have cannibalized a smaller galaxy in the past. The collision with the Milky Way will result in a new elliptical galaxy astronomers have nicknamed 'Milkomeda'." },
+    { name: "Sombrero Galaxy", type: "Lenticular", distance: "29.3 million ly", diameter: "50,000 ly", stars: "800 billion", age: "13 billion years", description: "Named for its distinctive appearance resembling a Mexican hat, this galaxy features a prominent dust lane and a bright central bulge. It's one of the most photogenic galaxies in the night sky.", visualClass: "lenticular-galaxy", details: "Officially designated M104, the Sombrero Galaxy has an unusually large central bulge and a prominent dust lane that gives it its distinctive appearance. It harbors a supermassive black hole with a mass of 1 billion solar masses at its center." },
+    { name: "Whirlpool Galaxy", type: "Spiral", distance: "23 million ly", diameter: "76,000 ly", stars: "160 billion", age: "400 million years", description: "A classic face-on spiral galaxy interacting with a smaller companion galaxy. Its perfect spiral structure makes it a favorite target for both professional and amateur astronomers.", visualClass: "spiral-galaxy", details: "Also known as M51, the Whirlpool Galaxy is actually two galaxies in the process of merging. The gravitational interaction with its smaller companion (NGC 5194) has enhanced the spiral structure and triggered intense star formation in the spiral arms." },
+    { name: "Centaurus A", type: "Elliptical", distance: "13.7 million ly", diameter: "60,000 ly", stars: "100 billion", age: "12 billion years", description: "A peculiar elliptical galaxy with a prominent dust lane, likely the result of a collision between an elliptical and spiral galaxy. It's one of the closest radio galaxies to Earth.", visualClass: "elliptical-galaxy", details: "NGC 5128, or Centaurus A, is the fifth brightest galaxy in the sky and features powerful radio jets extending millions of light-years from its central black hole. The dark dust lane across its center is evidence of a recent galactic merger." },
+    { name: "Large Magellanic Cloud", type: "Irregular", distance: "160,000 ly", diameter: "14,000 ly", stars: "30 billion", age: "13 billion years", description: "A satellite galaxy of the Milky Way, visible from the Southern Hemisphere. Despite being classified as irregular, it shows some spiral structure and is rich in gas and dust, making it a stellar nursery.", visualClass: "irregular-galaxy", details: "The LMC is home to the Tarantula Nebula, one of the most active star-forming regions in the Local Group. This galaxy is slowly being stripped of its gas by the Milky Way's gravity, creating the Magellanic Stream - a trail of gas stretching across the sky." },
+    { name: "Triangulum Galaxy", type: "Spiral", distance: "2.7 million ly", diameter: "60,000 ly", stars: "40 billion", age: "12 billion years", description: "The third-largest galaxy in the Local Group, known for its active star formation regions. It's the most distant object that can be seen with the naked eye under very dark skies.", visualClass: "spiral-galaxy", details: "M33 is notable for having no central bulge, making it a pure disk galaxy. It contains numerous H II regions where active star formation is taking place, giving it a distinctive appearance in photographs with bright pink and red areas throughout its spiral arms." },
+    { name: "Pinwheel Galaxy", type: "Spiral", distance: "21 million ly", diameter: "170,000 ly", stars: "1 trillion", age: "13 billion years", description: "A face-on spiral galaxy with spectacular, well-defined spiral arms. Its large size and perfect orientation make it one of the most studied galaxies in astronomy.", visualClass: "spiral-galaxy", details: "M101 is nearly twice the size of the Milky Way and contains numerous bright H II regions. Its asymmetric appearance is likely due to gravitational interactions with its satellite galaxies. The galaxy has experienced several recent supernovae, contributing to its active appearance." }
+];
 
-        function createStars() {
-            const starContainer = document.getElementById('starContainer');
-            for (let i = 0; i < 150; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = (Math.random() * 3) + 's';
-                starContainer.appendChild(star);
-            }
-        }
+let currentGalaxies = [...galaxies];
 
-        function renderGalaxies(galaxiesToRender) {
-            const grid = document.getElementById('galaxyGrid');
-            grid.innerHTML = '';
-            galaxiesToRender.forEach(galaxy => {
-                const card = document.createElement('div');
-                card.className = 'galaxy-card';
-                card.innerHTML = `
-                    <div class="galaxy-info">
-                        <h3>${galaxy.name}</h3>
-                        <div class="galaxy-description">${galaxy.description}</div>
-                        <button class="explore-btn" onclick="openModal('${galaxy.name}')">Explore</button>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
+function createStars() {
+    const starContainer = document.querySelector('.stars');
+    for (let i=0;i<200;i++){
+        const star=document.createElement('div');
+        star.className='star';
+        star.style.left=Math.random()*100+'%';
+        star.style.top=Math.random()*100+'%';
+        star.style.animationDelay=Math.random()*3+'s';
+        starContainer.appendChild(star);
+    }
+}
 
-        function openModal(galaxyName) {
-            const galaxy = galaxies.find(g => g.name === galaxyName);
-            const modalContent = document.getElementById('modalContent');
-            modalContent.innerHTML = `
-                <h2 style="margin-bottom: 20px; color: #4ecdc4;">${galaxy.name}</h2>
-                <p>${galaxy.details}</p>
-                <p><strong>Type:</strong> ${galaxy.type}</p>
-                <p><strong>Distance:</strong> ${galaxy.distance}</p>
-                <p><strong>Diameter:</strong> ${galaxy.diameter}</p>
-                <p><strong>Stars:</strong> ${galaxy.stars}</p>
-                <p><strong>Age:</strong> ${galaxy.age}</p>
-            `;
-            document.getElementById('galaxyModal').style.display = 'block';
-        }
+function createGalaxyCard(galaxy){
+    return `
+    <div class="galaxy-card" onclick="openModal('${galaxy.name}')">
+        <div class="galaxy-visual ${galaxy.visualClass}"></div>
+        <div class="galaxy-info">
+            <h3>${galaxy.name}</h3>
+            <div class="galaxy-stats">
+                <div class="stat"><div class="stat-label">Type</div><div class="stat-value">${galaxy.type}</div></div>
+                <div class="stat"><div class="stat-label">Distance</div><div class="stat-value">${galaxy.distance}</div></div>
+                <div class="stat"><div class="stat-label">Diameter</div><div class="stat-value">${galaxy.diameter}</div></div>
+                <div class="stat"><div class="stat-label">Stars</div><div class="stat-value">${galaxy.stars}</div></div>
+            </div>
+            <p class="galaxy-description">${galaxy.description}</p>
+            <button class="explore-btn">Explore Galaxy</button>
+        </div>
+    </div>`;
+}
 
-        function closeModal() {
-            document.getElementById('galaxyModal').style.display = 'none';
-        }
+function renderGalaxies(galaxyList=currentGalaxies){
+    const galaxyGrid=document.getElementById('galaxyGrid');
+    galaxyGrid.innerHTML=galaxyList.map(createGalaxyCard).join('');
+}
 
-        function filterGalaxies(query) {
-            query = query.toLowerCase();
-            currentGalaxies = galaxies.filter(galaxy => 
-                galaxy.name.toLowerCase().includes(query) ||
-                galaxy.type.toLowerCase().includes(query) ||
-                galaxy.description.toLowerCase().includes(query)
-            );
-            renderGalaxies(currentGalaxies);
-        }
+function openModal(galaxyName){
+    const galaxy=galaxies.find(g=>g.name===galaxyName);
+    if(!galaxy) return;
+    const modalContent=document.getElementById('modalContent');
+    modalContent.innerHTML=`
+    <h2 style="color:#4ecdc4;margin-bottom:20px;font-size:2.5em;">${galaxy.name}</h2>
+    <div class="galaxy-visual ${galaxy.visualClass}" style="height:300px;margin-bottom:30px;"></div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px; margin-bottom:30px;">
+        <div class="stat" style="padding:15px;"><div class="stat-label">Galaxy Type</div><div class="stat-value">${galaxy.type}</div></div>
+        <div class="stat" style="padding:15px;"><div class="stat-label">Distance from Earth</div><div class="stat-value">${galaxy.distance}</div></div>
+        <div class="stat" style="padding:15px;"><div class="stat-label">Diameter</div><div class="stat-value">${galaxy.diameter}</div></div>
+        <div class="stat" style="padding:15px;"><div class="stat-label">Estimated Stars</div><div class="stat-value">${galaxy.stars}</div></div>
+        <div class="stat" style="padding:15px;"><div class="stat-label">Age</div><div class="stat-value">${galaxy.age}</div></div>
+    </div>
+    <div style="background: rgba(255,255,255,0.1); padding:25px; border-radius:15px; margin-bottom:20px;">
+        <h3 style="color:#ff6b6b; margin-bottom:15px;">Overview</h3>
+        <p style="line-height:1.8; font-size:1.1em;">${galaxy.description}</p>
+    </div>
+    <div style="background: rgba(78,205,196,0.1); padding:25px; border-radius:15px;">
+        <h3 style="color:#4ecdc4; margin-bottom:15px;">Detailed Information</h3>
+        <p style="line-height:1.8; font-size:1.1em;">${galaxy.details}</p>
+    </div>
+    `;
+    document.getElementById('galaxyModal').style.display='block';
+    document.body.style.overflow='hidden';
+}
 
-        document.getElementById('searchBox').addEventListener('input', (e) => {
-            filterGalaxies(e.target.value);
-        });
+function closeModal(){
+    document.getElementById('galaxyModal').style.display='none';
+    document.body.style.overflow='auto';
+}
 
-        createStars();
+function setupSearch(){
+    const searchBox=document.getElementById('searchBox');
+    searchBox.addEventListener('input', e=>{
+        const searchTerm=e.target.value.toLowerCase();
+        currentGalaxies=galaxies.filter(galaxy=>galaxy.name.toLowerCase().includes(searchTerm) || galaxy.type.toLowerCase().includes(searchTerm) || galaxy.description.toLowerCase().includes(searchTerm));
         renderGalaxies(currentGalaxies);
-    </script>
+    });
+}
 
-    <!-- Native Async Ad -->
-    <script async="async" data-cfasync="false" src="//pl27644408.revenuecpmgate.com/2615f5efc0418aaf47232a2381f14a74/invoke.js"></script>
-    <div id="container-2615f5efc0418aaf47232a2381f14a74"></div>
+window.addEventListener('click', e=>{
+    const modal=document.getElementById('galaxyModal');
+    if(e.target===modal) closeModal();
+});
 
-    <!-- JS Sync Ad -->
-    <script type='text/javascript' src='//pl27644497.revenuecpmgate.com/e7/c6/dc/e7c6dcd1009e98407f2150a2c1368ff2.js'></script>
+window.addEventListener('keydown', e=>{
+    if(e.key==='Escape') closeModal();
+});
+
+document.addEventListener('DOMContentLoaded', ()=>{
+    createStars();
+    renderGalaxies();
+    setupSearch();
+});
+</script>
+
+<!-- Native Async Ad -->
+<script async="async" data-cfasync="false" src="//pl27644408.revenuecpmgate.com/2615f5efc0418aaf47232a2381f14a74/invoke.js"></script>
+<div id="container-2615f5efc0418aaf47232a2381f14a74"></div>
+
+<!-- JS Sync Ad -->
+<script type='text/javascript' src='//pl27644497.revenuecpmgate.com/e7/c6/dc/e7c6dcd1009e98407f2150a2c1368ff2.js'></script>
+
 </body>
 </html>
